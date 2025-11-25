@@ -9,6 +9,11 @@ import { test as ecoCoffeeShopValueProp } from './tests/eco-coffee-shop-value-pr
 import { test as abstractGeometricShapes } from './tests/abstract-geometric-shapes';
 import { test as aiLaborMarketStory } from './tests/ai-labor-market-story';
 
+// Get the most recent variant timestamp for a test
+const getLatestTimestamp = (item: GalleryItem): number =>
+  Math.max(...item.variants.map(v => v.timestamp));
+
+// Sorted by most recent variant (newest first)
 export const allTests: GalleryItem[] = [
   neonCyberpunkCity,
   microStoryTheLastRobot,
@@ -19,7 +24,7 @@ export const allTests: GalleryItem[] = [
   ecoCoffeeShopValueProp,
   abstractGeometricShapes,
   aiLaborMarketStory,
-];
+].sort((a, b) => getLatestTimestamp(b) - getLatestTimestamp(a));
 
 // O(1) lookup by slug
 const testsBySlug = new Map<string, GalleryItem>(

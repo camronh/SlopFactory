@@ -88,10 +88,15 @@ export const Card: React.FC<CardProps> = ({ item, isAutoRotationPaused = false }
         )}
 
         {/* Top Badges */}
-        <div className="absolute top-3 left-3 z-20">
-          <span className="bg-white/90 backdrop-blur px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider text-gray-600 shadow-sm border border-gray-100">
-            {item.category}
-          </span>
+        <div className="absolute top-3 left-3 z-20 flex gap-1.5">
+          {(Array.isArray(item.category) ? item.category : [item.category]).map((cat) => (
+            <span
+              key={cat}
+              className="bg-white/90 backdrop-blur px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider text-gray-600 shadow-sm border border-gray-100"
+            >
+              {cat}
+            </span>
+          ))}
         </div>
 
         {/* Bottom Badges & Indicators */}

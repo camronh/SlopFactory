@@ -106,11 +106,16 @@ export const DetailPage: React.FC = () => {
 
             {/* Title */}
             <h1
-              className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight mb-5"
+              className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight mb-3"
               style={{ fontFamily: "'Fraunces', Georgia, serif" }}
             >
               {item.title}
             </h1>
+
+            {/* Description */}
+            <p className="text-base text-slate-500 mb-5 leading-relaxed">
+              {item.description}
+            </p>
 
             {/* Model Switcher Pills */}
             <div className="flex flex-wrap items-center gap-2">

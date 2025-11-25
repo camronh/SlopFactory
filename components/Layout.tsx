@@ -1,70 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Beaker, Pause, Play } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 interface LayoutProps {
   children: React.ReactNode;
-  isAutoRotationPaused?: boolean;
-  onToggleAutoRotation?: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, isAutoRotationPaused = false, onToggleAutoRotation }) => {
-  return (
-    <div className="min-h-screen flex flex-col bg-gray-50 text-slate-900 font-sans">
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="bg-emerald-50 p-2 rounded-xl group-hover:bg-emerald-100 transition-colors">
-                <Beaker className="w-6 h-6 text-emerald-600" />
-              </div>
-              <div className="flex flex-col">
-                <h1 className="text-lg font-bold tracking-tight text-slate-900 leading-none">
-                  Slop<span className="text-emerald-600">Factory</span>
-                </h1>
-                <span className="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Catalogue & Archives</span>
-              </div>
-            </Link>
+export const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
-            {/* Auto-rotation toggle - only show if handler provided */}
-            {onToggleAutoRotation && (
-              <button
-                onClick={onToggleAutoRotation}
-                className="relative w-12 h-6 rounded-full transition-colors duration-200"
-                style={{ backgroundColor: isAutoRotationPaused ? '#e5e7eb' : '#10b981' }}
-                title={isAutoRotationPaused ? "Resume auto-rotation" : "Pause auto-rotation"}
-              >
-                <span
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200 flex items-center justify-center ${
-                    isAutoRotationPaused ? 'translate-x-0' : 'translate-x-6'
-                  }`}
-                >
-                  {isAutoRotationPaused ? (
-                    <Play className="w-3 h-3 text-gray-400" />
-                  ) : (
-                    <Pause className="w-3 h-3 text-emerald-600" />
-                  )}
-                </span>
-              </button>
-            )}
+  return (
+    <div className="min-h-screen flex flex-col bg-[#FAFAF9]">
+      {/* Minimal floating header - only show on detail pages */}
+      {!isHome && (
+        <header className="sticky top-0 z-50 pointer-events-none">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <Link
+              to="/"
+              className="pointer-events-auto inline-flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-full border border-gray-200/50 shadow-sm hover:shadow-md hover:bg-white transition-all duration-300 group"
+            >
+              <span className="text-sm font-bold tracking-tight text-slate-900">
+                Slop<span className="text-emerald-600">Factory</span>
+              </span>
+            </Link>
           </div>
-        </div>
-      </header>
+        </header>
+      )}
 
       {/* Main Content */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-12 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-          <p>© {new Date().getFullYear()} SlopFactory. Static Catalogue.</p>
-          <div className="flex gap-6">
-            <span>Powered by Gemini 2.5 & 3.0</span>
-            <span>•</span>
-            <span>View Only Mode</span>
+      {/* Minimal Footer */}
+      <footer className="py-8 mt-auto border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+            <p>© {new Date().getFullYear()} SlopFactory</p>
+            <p>Comparing AI model outputs</p>
           </div>
         </div>
       </footer>

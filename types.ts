@@ -23,16 +23,16 @@ export enum Category {
 export interface Variant {
   modelId: ModelId;
   output: string; // Text content or base64 image string / URL
-  timestamp?: number; // Optional timestamp for when this variant was generated
+  timestamp: number; // Timestamp for when this variant was generated
 }
 
 export interface GalleryItem {
   id: string;
   slug: string;
   title: string;
+  description: string;
   prompt: string;
   category: Category | Category[];
   isImage: boolean;
-  timestamp: number;
   variants: Variant[];
 }
