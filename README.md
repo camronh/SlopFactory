@@ -4,7 +4,7 @@
 
 See how Claude, GPT, Gemini, and Grok interpret the same prompts across different creative tasks.
 
-**[View Live Demo](https://slop.wiseguyai.com)**
+**[View Live Demo!](https://slop.wiseguyai.com)**
 
 ---
 
