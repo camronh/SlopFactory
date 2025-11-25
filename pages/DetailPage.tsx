@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import { Layout } from '../components/Layout';
 import { SEO } from '../components/SEO';
 import { ModelBadge } from '../components/ModelBadge';
@@ -112,9 +113,7 @@ export const DetailPage: React.FC = () => {
                   </div>
                 ) : (
                   <div className="p-8 prose prose-emerald max-w-none animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <pre className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed text-base">
-                      {activeVariant.output}
-                    </pre>
+                    <ReactMarkdown>{activeVariant.output}</ReactMarkdown>
                   </div>
                 )}
               </div>

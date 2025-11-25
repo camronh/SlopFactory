@@ -40,6 +40,7 @@ SlopFactory is a React gallery application for comparing AI model outputs side-b
 **Adding a new test:**
 1. Create `data/tests/my-new-test.ts` exporting a `GalleryItem` with unique `slug`
 2. Import and add to `allTests` array in `data/index.ts`
+3. If you need to move content around or add it to tests, make sure you copy/rewrite it VERBATIM from what I gave you.
 
 **Styling:** Tailwind CSS via CDN (loaded in index.html). Uses Inter font.
 

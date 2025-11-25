@@ -5,8 +5,10 @@ export enum ModelId {
   GEMINI_FLASH_IMAGE = 'gemini-2.5-flash-image',
   GPT_4_TURBO = 'gpt-4-turbo',
   GPT_5_PREVIEW = 'gpt-5-preview',
+  GPT_51 = 'gpt-5.1',
   CLAUDE_3_OPUS = 'claude-3-opus',
-  CLAUDE_3_SONNET = 'claude-3-sonnet'
+  CLAUDE_3_SONNET = 'claude-3-sonnet',
+  CLAUDE_OPUS_45 = 'claude-opus-4.5'
 }
 
 export enum Category {

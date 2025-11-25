@@ -7,6 +7,7 @@ import { test as watercolorCatPortrait } from './tests/watercolor-cat-portrait';
 import { test as haikuAboutCoding } from './tests/haiku-about-coding';
 import { test as ecoCoffeeShopValueProp } from './tests/eco-coffee-shop-value-prop';
 import { test as abstractGeometricShapes } from './tests/abstract-geometric-shapes';
+import { test as aiLaborMarketStory } from './tests/ai-labor-market-story';
 
 export const allTests: GalleryItem[] = [
   neonCyberpunkCity,
@@ -17,6 +18,7 @@ export const allTests: GalleryItem[] = [
   haikuAboutCoding,
   ecoCoffeeShopValueProp,
   abstractGeometricShapes,
+  aiLaborMarketStory,
 ];
 
 // O(1) lookup by slug

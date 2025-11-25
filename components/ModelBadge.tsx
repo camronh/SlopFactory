@@ -16,6 +16,8 @@ export const ModelBadge: React.FC<ModelBadgeProps> = ({ modelId, className = '' 
     [ModelId.GPT_5_PREVIEW]: { text: 'GPT-5 Preview', color: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
     [ModelId.CLAUDE_3_OPUS]: { text: 'Claude 3 Opus', color: 'bg-orange-100 text-orange-800 border-orange-200' },
     [ModelId.CLAUDE_3_SONNET]: { text: 'Claude 3 Sonnet', color: 'bg-amber-100 text-amber-800 border-amber-200' },
+    [ModelId.CLAUDE_OPUS_45]: { text: 'Claude Opus 4.5', color: 'bg-orange-100 text-orange-800 border-orange-200' },
+    [ModelId.GPT_51]: { text: 'GPT-5.1', color: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
   };
 
   const config = labels[modelId] || { text: modelId, color: 'bg-gray-100 text-gray-800 border-gray-200' };
