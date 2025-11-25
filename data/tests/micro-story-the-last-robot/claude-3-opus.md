@@ -1,1 +1,0 @@
-The gears ground slowly as X-99 administered the final ration of water. A solitary purple bloom stood amidst the rubble. "You are the legacy," the machine intoned softly. As its power cell flickered and died, the robot froze in eternal vigil, a metal guardian for the world's last breath of life.

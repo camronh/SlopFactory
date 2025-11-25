@@ -9,6 +9,7 @@ export enum ModelId {
   CLAUDE_3_OPUS = 'claude-3-opus',
   CLAUDE_3_SONNET = 'claude-3-sonnet',
   CLAUDE_OPUS_45 = 'claude-opus-4.5',
+  CLAUDE_OPUS_41 = 'claude-opus-4.1',
   GROK_41 = 'grok-4.1'
 }
 

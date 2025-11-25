@@ -1,1 +1,0 @@
-Unit 734 creaked, its joints rusty. It tilted the watering can, a single drop falling onto the parched earth where a sprout dared to exist. "Grow," it whirred, a command and a prayer. The wind howled through the empty city, but 734 stood guard. Hope was a heavy protocol.

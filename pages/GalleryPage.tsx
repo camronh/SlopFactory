@@ -238,25 +238,6 @@ export const GalleryPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Filter Bar */}
-        <div className="-mx-4 px-4 py-4 mb-8">
-          <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1">
-            <span className="text-xs font-medium text-slate-400 uppercase tracking-wider shrink-0">Filter:</span>
-            {allCategories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat as Category | 'All')}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 ${
-                  filter === cat
-                    ? 'bg-slate-900 text-white shadow-lg'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
 
         {/* Gallery Grid - Bento style */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-auto">
