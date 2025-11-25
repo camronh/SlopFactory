@@ -3,38 +3,68 @@ import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { Layout } from '../components/Layout';
 import { SEO } from '../components/SEO';
-import { ModelBadge } from '../components/ModelBadge';
 import { getTestBySlug } from '../data';
-import { ArrowLeft, Copy, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Copy, Check, ChevronDown, Sparkles } from 'lucide-react';
+import { ModelId } from '../types';
+
+// Model-specific accent colors
+const modelColors: Record<string, { bg: string; border: string; text: string; light: string; dot: string }> = {
+  [ModelId.CLAUDE_OPUS_45]: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', light: 'bg-amber-100', dot: 'bg-amber-500' },
+  [ModelId.CLAUDE_3_OPUS]: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', light: 'bg-orange-100', dot: 'bg-orange-500' },
+  [ModelId.CLAUDE_3_SONNET]: { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-700', light: 'bg-yellow-100', dot: 'bg-yellow-500' },
+  [ModelId.GPT_51]: { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', light: 'bg-emerald-100', dot: 'bg-emerald-500' },
+  [ModelId.GPT_5_PREVIEW]: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700', light: 'bg-green-100', dot: 'bg-green-500' },
+  [ModelId.GPT_4_TURBO]: { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', light: 'bg-teal-100', dot: 'bg-teal-500' },
+  [ModelId.GEMINI_PRO]: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', light: 'bg-blue-100', dot: 'bg-blue-500' },
+  [ModelId.GEMINI_FLASH]: { bg: 'bg-sky-50', border: 'border-sky-200', text: 'text-sky-700', light: 'bg-sky-100', dot: 'bg-sky-500' },
+  [ModelId.GEMINI_FLASH_IMAGE]: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', light: 'bg-indigo-100', dot: 'bg-indigo-500' },
+};
+
+const modelDisplayNames: Record<string, string> = {
+  [ModelId.CLAUDE_OPUS_45]: 'Claude Opus 4.5',
+  [ModelId.CLAUDE_3_OPUS]: 'Claude 3 Opus',
+  [ModelId.CLAUDE_3_SONNET]: 'Claude 3 Sonnet',
+  [ModelId.GPT_51]: 'GPT-5.1',
+  [ModelId.GPT_5_PREVIEW]: 'GPT-5 Preview',
+  [ModelId.GPT_4_TURBO]: 'GPT-4 Turbo',
+  [ModelId.GEMINI_PRO]: 'Gemini 3 Pro',
+  [ModelId.GEMINI_FLASH]: 'Gemini 2.5 Flash',
+  [ModelId.GEMINI_FLASH_IMAGE]: 'Gemini Flash Image',
+};
+
+const modelLogos: Record<string, string> = {
+  [ModelId.CLAUDE_OPUS_45]: '/logos/claudelogo.png',
+  [ModelId.CLAUDE_3_OPUS]: '/logos/claudelogo.png',
+  [ModelId.CLAUDE_3_SONNET]: '/logos/claudelogo.png',
+  [ModelId.GPT_51]: '/logos/openailogo.png',
+  [ModelId.GPT_5_PREVIEW]: '/logos/openailogo.png',
+  [ModelId.GPT_4_TURBO]: '/logos/openailogo.png',
+  [ModelId.GEMINI_PRO]: '/logos/geminilogo.png',
+  [ModelId.GEMINI_FLASH]: '/logos/geminilogo.png',
+  [ModelId.GEMINI_FLASH_IMAGE]: '/logos/geminilogo.png',
+};
 
 export const DetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [activeVariantIndex, setActiveVariantIndex] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [promptExpanded, setPromptExpanded] = useState(false);
 
   const item = slug ? getTestBySlug(slug) : undefined;
 
-  // 404 handling - redirect to home
   if (!item) {
     return <Navigate to="/" replace />;
   }
 
   const activeVariant = item.variants[activeVariantIndex];
   const ogImage = item.isImage ? activeVariant.output : undefined;
+  const colors = modelColors[activeVariant.modelId] || { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-700', light: 'bg-gray-100', dot: 'bg-gray-500' };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(activeVariant.output);
+    navigator.clipboard.writeText(item.prompt);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handlePrev = () => {
-    setActiveVariantIndex((prev) => (prev - 1 + item.variants.length) % item.variants.length);
-  };
-
-  const handleNext = () => {
-    setActiveVariantIndex((prev) => (prev + 1) % item.variants.length);
   };
 
   return (
@@ -44,120 +74,153 @@ export const DetailPage: React.FC = () => {
         description={item.prompt.slice(0, 160)}
         ogImage={ogImage}
       />
-      <div className="max-w-5xl mx-auto space-y-6 animate-in fade-in duration-300 pb-20">
-        <button
-          onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-gray-500 hover:text-emerald-600 transition-colors mb-4 group font-medium"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Catalogue
-        </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Output Display */}
-          <div className="lg:col-span-2 space-y-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Main Content Card */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
 
-            {/* Switcher Controls */}
-            <div className="flex items-center justify-between bg-white rounded-xl p-2 border border-gray-100 shadow-sm">
-              <button onClick={handlePrev} className="p-2 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-emerald-600 transition-colors">
-                <ChevronLeft className="w-5 h-5" />
+          {/* Header Section */}
+          <div className="px-8 lg:px-12 pt-6 pb-6 border-b border-gray-100">
+            {/* Top row: Back + Category */}
+            <div className="flex items-center gap-3 mb-4">
+              <button
+                onClick={() => navigate('/')}
+                className="inline-flex items-center gap-1.5 text-gray-400 hover:text-emerald-600 transition-colors group"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                <span className="text-xs font-medium">Back</span>
               </button>
+              <span className="text-gray-300">/</span>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
+                <Sparkles className="w-3 h-3" />
+                {item.category}
+              </span>
+            </div>
 
-              {/* Model Tabs (Centered) */}
-              <div className="flex space-x-2 overflow-x-auto py-1 px-2 no-scrollbar">
-                {item.variants.map((variant, idx) => (
+            {/* Title */}
+            <h1
+              className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight mb-5"
+              style={{ fontFamily: "'Fraunces', Georgia, serif" }}
+            >
+              {item.title}
+            </h1>
+
+            {/* Model Switcher Pills */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium text-gray-400 uppercase tracking-wider mr-2">Model:</span>
+              {item.variants.map((variant, idx) => {
+                const variantColors = modelColors[variant.modelId] || { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-700', dot: 'bg-gray-500' };
+                const isActive = activeVariantIndex === idx;
+
+                return (
                   <button
                     key={variant.modelId}
                     onClick={() => setActiveVariantIndex(idx)}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200 text-xs font-medium whitespace-nowrap ${
-                      activeVariantIndex === idx
-                        ? 'bg-emerald-50 border-emerald-500 ring-1 ring-emerald-500 text-emerald-700'
-                        : 'bg-white border-gray-200 text-gray-600 hover:border-emerald-300 hover:text-emerald-600'
-                    }`}
+                    className={`
+                      inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                      ${isActive
+                        ? `${variantColors.bg} ${variantColors.border} ${variantColors.text} border shadow-sm`
+                        : 'bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100 hover:border-gray-300'
+                      }
+                    `}
                   >
-                    {activeVariantIndex === idx && <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
-                    <ModelBadge modelId={variant.modelId} className="border-0 bg-transparent p-0 text-inherit" />
+                    <img
+                      src={modelLogos[variant.modelId]}
+                      alt=""
+                      className={`w-4 h-4 object-contain transition-opacity ${isActive ? 'opacity-100' : 'opacity-50'}`}
+                    />
+                    {modelDisplayNames[variant.modelId] || variant.modelId}
                   </button>
-                ))}
-              </div>
+                );
+              })}
+            </div>
+          </div>
 
-              <button onClick={handleNext} className="p-2 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-emerald-600 transition-colors">
-                <ChevronRight className="w-5 h-5" />
+          {/* Prompt Section - Collapsible */}
+          <div className="px-8 lg:px-12 py-4 bg-gray-50/50 border-b border-gray-100">
+            <div className="flex items-start gap-4">
+              <button
+                onClick={() => setPromptExpanded(!promptExpanded)}
+                className="flex-1 group text-left"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="shrink-0 w-16">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                      Prompt
+                    </span>
+                  </div>
+                  <p className={`flex-1 text-sm text-gray-600 italic leading-relaxed ${promptExpanded ? '' : 'line-clamp-2'}`}>
+                    "{item.prompt}"
+                  </p>
+                  <ChevronDown
+                    className={`w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-all shrink-0 mt-0.5 ${promptExpanded ? 'rotate-180' : ''}`}
+                  />
+                </div>
+              </button>
+              <button
+                onClick={handleCopy}
+                className="shrink-0 p-1.5 text-gray-400 hover:text-emerald-600 transition-colors"
+                title="Copy prompt"
+              >
+                {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
-
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden min-h-[500px] flex flex-col">
-              <div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
-                <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-                  Result Output
-                </h3>
-                {!item.isImage && (
-                  <button
-                    onClick={handleCopy}
-                    className="text-gray-500 hover:text-emerald-600 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide transition-colors bg-white px-3 py-1.5 rounded-md border border-gray-200 hover:border-emerald-200"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                    {copied ? 'Copied' : 'Copy Text'}
-                  </button>
-                )}
-              </div>
-
-              <div className="p-0 bg-white flex-1 relative">
-                {item.isImage ? (
-                  <div className="flex justify-center bg-gray-100 p-8 h-full items-center">
-                    <img
-                      key={activeVariant.modelId}
-                      src={activeVariant.output}
-                      alt={item.title}
-                      className="max-w-full max-h-[600px] rounded-lg shadow-lg animate-in fade-in zoom-in-95 duration-300"
-                    />
-                  </div>
-                ) : (
-                  <div className="p-8 prose prose-emerald max-w-none animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <ReactMarkdown>{activeVariant.output}</ReactMarkdown>
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
 
-          {/* Right Column: Metadata */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sticky top-24">
-              <div className="mb-6">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 mb-3 border border-emerald-100">
-                  {item.category}
-                </span>
-                <h1 className="text-2xl font-bold text-slate-900 leading-tight">{item.title}</h1>
+          {/* Output Section */}
+          <div className="relative">
+            {item.isImage ? (
+              <div className="flex justify-center bg-gradient-to-b from-gray-50 to-white p-8 lg:p-12">
+                <img
+                  key={activeVariant.modelId}
+                  src={activeVariant.output}
+                  alt={item.title}
+                  className="max-w-full max-h-[75vh] rounded-xl shadow-lg"
+                />
               </div>
+            ) : (
+              <div className="px-8 lg:px-12 py-10 lg:py-12">
+                {/* Colored accent bar based on model */}
+                <div className={`w-12 h-1 rounded-full ${colors.dot} mb-8 opacity-60`} />
 
-              <div className="space-y-6">
-                <div className="group">
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">Prompt</span>
-                  <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-600 italic border border-slate-100 leading-relaxed relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-emerald-400"></div>
-                    "{item.prompt}"
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 pt-2">
-                  <div>
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Active Model</span>
-                    <div className="text-base text-slate-800">
-                      <ModelBadge modelId={activeVariant.modelId} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Generated On</span>
-                    <p className="text-sm text-gray-600 font-medium">
-                      {new Date(item.timestamp).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                    </p>
-                  </div>
-                </div>
+                <article
+                  className="prose prose-lg max-w-none
+                    prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-slate-900
+                    prose-h1:text-3xl prose-h1:mb-6 prose-h1:mt-0
+                    prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+                    prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+                    prose-p:text-gray-700 prose-p:leading-[1.8] prose-p:mb-5
+                    prose-strong:text-slate-900 prose-strong:font-semibold
+                    prose-em:text-gray-600
+                    prose-hr:border-gray-200 prose-hr:my-10
+                    prose-blockquote:border-l-4 prose-blockquote:border-emerald-200 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:bg-emerald-50/50 prose-blockquote:py-4 prose-blockquote:pr-4 prose-blockquote:rounded-r-lg
+                    prose-code:text-emerald-700 prose-code:bg-emerald-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal prose-code:text-sm
+                    prose-pre:bg-slate-900 prose-pre:text-gray-100
+                    prose-a:text-emerald-600 prose-a:no-underline hover:prose-a:underline
+                    prose-li:text-gray-700 prose-li:marker:text-emerald-500
+                  "
+                >
+                  <ReactMarkdown
+                    components={{
+                      h1: ({ children }) => (
+                        <h1 style={{ fontFamily: "'Fraunces', Georgia, serif" }}>{children}</h1>
+                      ),
+                      h2: ({ children }) => (
+                        <h2 style={{ fontFamily: "'Fraunces', Georgia, serif" }}>{children}</h2>
+                      ),
+                      h3: ({ children }) => (
+                        <h3 style={{ fontFamily: "'Fraunces', Georgia, serif" }}>{children}</h3>
+                      ),
+                    }}
+                  >
+                    {activeVariant.output}
+                  </ReactMarkdown>
+                </article>
               </div>
-            </div>
+            )}
           </div>
         </div>
+
       </div>
     </Layout>
   );
