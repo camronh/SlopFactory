@@ -16,6 +16,7 @@ const modelLogos: Record<string, string> = {
   [ModelId.GEMINI_PRO]: '/logos/geminilogo.png',
   [ModelId.GEMINI_FLASH]: '/logos/geminilogo.png',
   [ModelId.GEMINI_FLASH_IMAGE]: '/logos/geminilogo.png',
+  [ModelId.GROK_41]: '/logos/grok.svg',
 };
 
 const modelNames: Record<string, string> = {
@@ -28,6 +29,7 @@ const modelNames: Record<string, string> = {
   [ModelId.GEMINI_PRO]: 'Gemini Pro',
   [ModelId.GEMINI_FLASH]: 'Gemini Flash',
   [ModelId.GEMINI_FLASH_IMAGE]: 'Gemini Flash',
+  [ModelId.GROK_41]: 'Grok 4.1',
 };
 
 // Card component built into the page for cohesive design

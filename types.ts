@@ -8,7 +8,8 @@ export enum ModelId {
   GPT_51 = 'gpt-5.1',
   CLAUDE_3_OPUS = 'claude-3-opus',
   CLAUDE_3_SONNET = 'claude-3-sonnet',
-  CLAUDE_OPUS_45 = 'claude-opus-4.5'
+  CLAUDE_OPUS_45 = 'claude-opus-4.5',
+  GROK_41 = 'grok-4.1'
 }
 
 export enum Category {

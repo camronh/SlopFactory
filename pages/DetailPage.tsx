@@ -18,6 +18,7 @@ const modelColors: Record<string, { bg: string; border: string; text: string; li
   [ModelId.GEMINI_PRO]: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', light: 'bg-blue-100', dot: 'bg-blue-500' },
   [ModelId.GEMINI_FLASH]: { bg: 'bg-sky-50', border: 'border-sky-200', text: 'text-sky-700', light: 'bg-sky-100', dot: 'bg-sky-500' },
   [ModelId.GEMINI_FLASH_IMAGE]: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', light: 'bg-indigo-100', dot: 'bg-indigo-500' },
+  [ModelId.GROK_41]: { bg: 'bg-slate-50', border: 'border-slate-200', text: 'text-slate-700', light: 'bg-slate-100', dot: 'bg-slate-500' },
 };
 
 const modelDisplayNames: Record<string, string> = {
@@ -30,6 +31,7 @@ const modelDisplayNames: Record<string, string> = {
   [ModelId.GEMINI_PRO]: 'Gemini 3 Pro',
   [ModelId.GEMINI_FLASH]: 'Gemini 2.5 Flash',
   [ModelId.GEMINI_FLASH_IMAGE]: 'Gemini Flash Image',
+  [ModelId.GROK_41]: 'Grok 4.1',
 };
 
 const modelLogos: Record<string, string> = {
@@ -42,6 +44,7 @@ const modelLogos: Record<string, string> = {
   [ModelId.GEMINI_PRO]: '/logos/geminilogo.png',
   [ModelId.GEMINI_FLASH]: '/logos/geminilogo.png',
   [ModelId.GEMINI_FLASH_IMAGE]: '/logos/geminilogo.png',
+  [ModelId.GROK_41]: '/logos/grok.svg',
 };
 
 export const DetailPage: React.FC = () => {
