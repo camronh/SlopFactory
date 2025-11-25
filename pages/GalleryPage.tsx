@@ -4,34 +4,9 @@ import ReactMarkdown from 'react-markdown';
 import { Layout } from '../components/Layout';
 import { SEO } from '../components/SEO';
 import { allTests } from '../data';
-import { Category, ModelId, GalleryItem } from '../types';
+import { Category, GalleryItem } from '../types';
 import { ArrowRight, Sparkles } from 'lucide-react';
-
-const modelLogos: Record<string, string> = {
-  [ModelId.CLAUDE_OPUS_45]: '/logos/claudelogo.png',
-  [ModelId.CLAUDE_3_OPUS]: '/logos/claudelogo.png',
-  [ModelId.CLAUDE_3_SONNET]: '/logos/claudelogo.png',
-  [ModelId.GPT_51]: '/logos/openailogo.png',
-  [ModelId.GPT_5_PREVIEW]: '/logos/openailogo.png',
-  [ModelId.GPT_4_TURBO]: '/logos/openailogo.png',
-  [ModelId.GEMINI_PRO]: '/logos/geminilogo.png',
-  [ModelId.GEMINI_FLASH]: '/logos/geminilogo.png',
-  [ModelId.GEMINI_FLASH_IMAGE]: '/logos/geminilogo.png',
-  [ModelId.GROK_41]: '/logos/grok.svg',
-};
-
-const modelNames: Record<string, string> = {
-  [ModelId.CLAUDE_OPUS_45]: 'Claude Opus 4.5',
-  [ModelId.CLAUDE_3_OPUS]: 'Claude 3 Opus',
-  [ModelId.CLAUDE_3_SONNET]: 'Claude 3 Sonnet',
-  [ModelId.GPT_51]: 'GPT-5.1',
-  [ModelId.GPT_5_PREVIEW]: 'GPT-5',
-  [ModelId.GPT_4_TURBO]: 'GPT-4 Turbo',
-  [ModelId.GEMINI_PRO]: 'Gemini Pro',
-  [ModelId.GEMINI_FLASH]: 'Gemini Flash',
-  [ModelId.GEMINI_FLASH_IMAGE]: 'Gemini Flash',
-  [ModelId.GROK_41]: 'Grok 4.1',
-};
+import { getModelDisplayName, getModelLogo } from '../modelConfig';
 
 // Card component built into the page for cohesive design
 const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boolean }> = ({ item, index, featured }) => {
@@ -116,7 +91,7 @@ const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boole
           {item.variants.map((v, idx) => (
             <button
               key={v.modelId}
-              title={modelNames[v.modelId] || v.modelId}
+              title={getModelDisplayName(v.modelId)}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -126,7 +101,7 @@ const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boole
                 idx === activeVariant ? 'ring-2 ring-emerald-500 ring-offset-2' : 'opacity-60 hover:opacity-100'
               }`}
             >
-              <img src={modelLogos[v.modelId]} alt="" className="w-4 h-4 object-contain" />
+              <img src={getModelLogo(v.modelId)} alt="" className="w-4 h-4 object-contain" />
             </button>
           ))}
         </div>
@@ -154,8 +129,8 @@ const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boole
         {/* Footer */}
         <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src={modelLogos[variant.modelId]} alt="" className="w-4 h-4 object-contain opacity-60" />
-            <span className="text-xs text-slate-400">{modelNames[variant.modelId] || variant.modelId}</span>
+            <img src={getModelLogo(variant.modelId)} alt="" className="w-4 h-4 object-contain opacity-60" />
+            <span className="text-xs text-slate-400">{getModelDisplayName(variant.modelId)}</span>
           </div>
           <span className="text-xs text-slate-400">
             {new Date(variant.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -231,7 +206,7 @@ export const GalleryPage: React.FC = () => {
               </div>
               <div className="w-px h-8 bg-slate-200" />
               <div>
-                <span className="text-2xl font-bold text-slate-900">3</span>
+                <span className="text-2xl font-bold text-slate-900">4</span>
                 <span className="text-slate-500 ml-2">AI providers</span>
               </div>
             </div>

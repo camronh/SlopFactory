@@ -5,47 +5,7 @@ import { Layout } from '../components/Layout';
 import { SEO } from '../components/SEO';
 import { getTestBySlug } from '../data';
 import { ArrowLeft, Copy, Check, ChevronDown } from 'lucide-react';
-import { ModelId } from '../types';
-
-// Model-specific accent colors
-const modelColors: Record<string, { bg: string; border: string; text: string; light: string; dot: string }> = {
-  [ModelId.CLAUDE_OPUS_45]: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', light: 'bg-amber-100', dot: 'bg-amber-500' },
-  [ModelId.CLAUDE_3_OPUS]: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', light: 'bg-orange-100', dot: 'bg-orange-500' },
-  [ModelId.CLAUDE_3_SONNET]: { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-700', light: 'bg-yellow-100', dot: 'bg-yellow-500' },
-  [ModelId.GPT_51]: { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', light: 'bg-emerald-100', dot: 'bg-emerald-500' },
-  [ModelId.GPT_5_PREVIEW]: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700', light: 'bg-green-100', dot: 'bg-green-500' },
-  [ModelId.GPT_4_TURBO]: { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', light: 'bg-teal-100', dot: 'bg-teal-500' },
-  [ModelId.GEMINI_PRO]: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', light: 'bg-blue-100', dot: 'bg-blue-500' },
-  [ModelId.GEMINI_FLASH]: { bg: 'bg-sky-50', border: 'border-sky-200', text: 'text-sky-700', light: 'bg-sky-100', dot: 'bg-sky-500' },
-  [ModelId.GEMINI_FLASH_IMAGE]: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', light: 'bg-indigo-100', dot: 'bg-indigo-500' },
-  [ModelId.GROK_41]: { bg: 'bg-slate-50', border: 'border-slate-200', text: 'text-slate-700', light: 'bg-slate-100', dot: 'bg-slate-500' },
-};
-
-const modelDisplayNames: Record<string, string> = {
-  [ModelId.CLAUDE_OPUS_45]: 'Claude Opus 4.5',
-  [ModelId.CLAUDE_3_OPUS]: 'Claude 3 Opus',
-  [ModelId.CLAUDE_3_SONNET]: 'Claude 3 Sonnet',
-  [ModelId.GPT_51]: 'GPT-5.1',
-  [ModelId.GPT_5_PREVIEW]: 'GPT-5 Preview',
-  [ModelId.GPT_4_TURBO]: 'GPT-4 Turbo',
-  [ModelId.GEMINI_PRO]: 'Gemini 3 Pro',
-  [ModelId.GEMINI_FLASH]: 'Gemini 2.5 Flash',
-  [ModelId.GEMINI_FLASH_IMAGE]: 'Gemini Flash Image',
-  [ModelId.GROK_41]: 'Grok 4.1',
-};
-
-const modelLogos: Record<string, string> = {
-  [ModelId.CLAUDE_OPUS_45]: '/logos/claudelogo.png',
-  [ModelId.CLAUDE_3_OPUS]: '/logos/claudelogo.png',
-  [ModelId.CLAUDE_3_SONNET]: '/logos/claudelogo.png',
-  [ModelId.GPT_51]: '/logos/openailogo.png',
-  [ModelId.GPT_5_PREVIEW]: '/logos/openailogo.png',
-  [ModelId.GPT_4_TURBO]: '/logos/openailogo.png',
-  [ModelId.GEMINI_PRO]: '/logos/geminilogo.png',
-  [ModelId.GEMINI_FLASH]: '/logos/geminilogo.png',
-  [ModelId.GEMINI_FLASH_IMAGE]: '/logos/geminilogo.png',
-  [ModelId.GROK_41]: '/logos/grok.svg',
-};
+import { getModelDisplayName, getModelLogo, getModelColors } from '../modelConfig';
 
 export const DetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -67,7 +27,7 @@ export const DetailPage: React.FC = () => {
 
   const activeVariant = item.variants[activeVariantIndex];
   const ogImage = item.isImage ? activeVariant.output : undefined;
-  const colors = modelColors[activeVariant.modelId] || { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-700', light: 'bg-gray-100', dot: 'bg-gray-500' };
+  const colors = getModelColors(activeVariant.modelId);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(item.prompt);
@@ -124,7 +84,7 @@ export const DetailPage: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-medium text-gray-400 uppercase tracking-wider mr-2">Model:</span>
               {item.variants.map((variant, idx) => {
-                const variantColors = modelColors[variant.modelId] || { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-700', dot: 'bg-gray-500' };
+                const variantColors = getModelColors(variant.modelId);
                 const isActive = activeVariantIndex === idx;
 
                 return (
@@ -140,11 +100,11 @@ export const DetailPage: React.FC = () => {
                     `}
                   >
                     <img
-                      src={modelLogos[variant.modelId]}
+                      src={getModelLogo(variant.modelId)}
                       alt=""
                       className={`w-4 h-4 object-contain transition-opacity ${isActive ? 'opacity-100' : 'opacity-50'}`}
                     />
-                    {modelDisplayNames[variant.modelId] || variant.modelId}
+                    {getModelDisplayName(variant.modelId)}
                   </button>
                 );
               })}
