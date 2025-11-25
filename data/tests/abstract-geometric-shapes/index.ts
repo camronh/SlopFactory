@@ -1,4 +1,7 @@
-import { GalleryItem, Category, ModelId } from '../../types';
+import { GalleryItem, Category, ModelId } from '../../../types';
+
+// Note: This is a placeholder URL. Replace with actual PNG import when image is added:
+// import geminiFlashImage from './gemini-2.5-flash-image.png';
 
 export const test: GalleryItem = {
   id: 'img-3',
@@ -11,7 +14,7 @@ export const test: GalleryItem = {
   variants: [
     {
       modelId: ModelId.GEMINI_FLASH_IMAGE,
-      output: 'https://picsum.photos/id/20/800/800',
+      output: 'https://picsum.photos/id/20/800/800', // Replace with: geminiFlashImage
       timestamp: Date.parse('2025-01-17T12:00:00')
     }
   ]

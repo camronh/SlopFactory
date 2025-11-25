@@ -1,4 +1,8 @@
-import { GalleryItem, Category, ModelId } from '../../types';
+import { GalleryItem, Category, ModelId } from '../../../types';
+
+// Note: These are placeholder URLs. Replace with actual PNG imports when images are added:
+// import geminiFlashImage from './gemini-2.5-flash-image.png';
+// import gpt4TurboImage from './gpt-4-turbo.png';
 
 export const test: GalleryItem = {
   id: 'img-2',
@@ -11,12 +15,12 @@ export const test: GalleryItem = {
   variants: [
     {
       modelId: ModelId.GEMINI_FLASH_IMAGE,
-      output: 'https://picsum.photos/id/40/800/800',
+      output: 'https://picsum.photos/id/40/800/800', // Replace with: geminiFlashImage
       timestamp: Date.parse('2025-01-14T12:00:00')
     },
     {
       modelId: ModelId.GPT_4_TURBO,
-      output: 'https://picsum.photos/id/64/800/800',
+      output: 'https://picsum.photos/id/64/800/800', // Replace with: gpt4TurboImage
       timestamp: Date.parse('2025-01-14T12:00:00')
     }
   ]

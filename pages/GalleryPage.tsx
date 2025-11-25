@@ -85,8 +85,8 @@ const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boole
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 p-6 pt-12 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-white from-0% via-white/90 via-5% to-transparent to-15% z-10 pointer-events-none" />
+            <div className="w-full h-full bg-slate-50 p-6 pt-12 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-50 from-0% via-slate-50/80 via-8% to-transparent to-20% z-10 pointer-events-none" />
               <div className="prose prose-xs prose-slate max-w-none text-slate-400 leading-relaxed whitespace-pre-line [&>*]:text-xs [&>*]:my-1 [&_h1]:text-sm [&_h2]:text-sm [&_h3]:text-xs [&_p]:text-xs [&_p]:whitespace-pre-line [&_li]:text-xs [&_code]:text-[10px] [&_pre]:text-[10px] [&_pre]:bg-slate-200/50 [&_pre]:p-2 [&_pre]:rounded [&_pre]:whitespace-pre-wrap">
                 <ReactMarkdown>
                   {variant.output}
@@ -283,22 +283,8 @@ export const GalleryPage: React.FC = () => {
 
         {/* Footer decoration */}
         <div className="mt-20 pt-12 border-t border-slate-100">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+          <div className="text-center text-sm text-slate-400">
             <p>Comparing outputs from leading AI models</p>
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <img src="/logos/claudelogo.png" alt="Claude" className="w-5 h-5 object-contain opacity-40" />
-                <span>Claude</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <img src="/logos/openailogo.png" alt="OpenAI" className="w-5 h-5 object-contain opacity-40" />
-                <span>GPT</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <img src="/logos/geminilogo.png" alt="Gemini" className="w-5 h-5 object-contain opacity-40" />
-                <span>Gemini</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
