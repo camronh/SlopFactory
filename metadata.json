@@ -1,0 +1,5 @@
+{
+  "name": "SlopFactory",
+  "description": "A catalogue style web app to track, visualize, and store your AI prompt experiments across different models.",
+  "requestFramePermissions": []
+}
