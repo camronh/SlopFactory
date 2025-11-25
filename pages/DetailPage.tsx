@@ -26,7 +26,9 @@ export const DetailPage: React.FC = () => {
   }
 
   const activeVariant = item.variants[activeVariantIndex];
-  const ogImage = item.isImage ? activeVariant.output : undefined;
+  const ogImage = item.isImage
+    ? activeVariant.output
+    : `https://slop.wiseguyai.com/og/og-${slug}.png`;
   const colors = getModelColors(activeVariant.modelId);
 
   const handleCopy = () => {
@@ -39,8 +41,10 @@ export const DetailPage: React.FC = () => {
     <Layout>
       <SEO
         title={item.title}
-        description={item.prompt.slice(0, 160)}
+        description={item.description || item.prompt.slice(0, 160)}
+        path={`/${slug}`}
         ogImage={ogImage}
+        type="article"
       />
 
       <div className="max-w-6xl mx-auto">

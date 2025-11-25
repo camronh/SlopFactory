@@ -158,6 +158,8 @@ export const GalleryPage: React.FC = () => {
       <SEO
         title="AI Model Comparison Gallery"
         description="Compare AI generation outputs across Gemini, GPT-5, and Claude models. A curated collection of AI generation tests."
+        path="/"
+        type="website"
       />
 
       <div className="min-h-screen">
