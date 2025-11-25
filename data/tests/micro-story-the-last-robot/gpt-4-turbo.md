@@ -1,0 +1,1 @@
+Rust coated Unit-9's fingers as it tipped the can. One drop. The petal shivered. "Function executed," it beeped to the silence. No birds sang. No children played. Just the hum of its battery dying and the green defiance rising from the dust. It powered down, content.

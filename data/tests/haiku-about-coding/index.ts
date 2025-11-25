@@ -1,4 +1,8 @@
-import { GalleryItem, Category, ModelId } from '../../types';
+import { GalleryItem, Category, ModelId } from '../../../types';
+
+import geminiFlashOutput from './gemini-2.5-flash.md?raw';
+import gpt4TurboOutput from './gpt-4-turbo.md?raw';
+import claude3OpusOutput from './claude-3-opus.md?raw';
 
 export const test: GalleryItem = {
   id: 'cw-1',
@@ -11,17 +15,17 @@ export const test: GalleryItem = {
   variants: [
     {
       modelId: ModelId.GEMINI_FLASH,
-      output: 'Screen light burns my eyes,\nOne missing semicolon,\nSunlight breaks the dawn.',
+      output: geminiFlashOutput,
       timestamp: Date.parse('2025-01-15T12:00:00')
     },
     {
       modelId: ModelId.GPT_4_TURBO,
-      output: 'Coffee cup is dry,\nLogic fails in midnight glow,\nBug remains unsolved.',
+      output: gpt4TurboOutput,
       timestamp: Date.parse('2025-01-15T12:00:00')
     },
     {
       modelId: ModelId.CLAUDE_3_OPUS,
-      output: 'Moonlight hits the keys\nError log flows like a stream\nSleep is but a dream',
+      output: claude3OpusOutput,
       timestamp: Date.parse('2025-01-15T12:00:00')
     }
   ]

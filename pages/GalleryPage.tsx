@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import { Layout } from '../components/Layout';
 import { SEO } from '../components/SEO';
 import { allTests } from '../data';
@@ -84,11 +85,13 @@ const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boole
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 p-6 relative">
+            <div className="w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 p-6 pt-12 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10" />
-              <p className="font-mono text-xs text-slate-400 leading-relaxed line-clamp-[12]">
-                {variant.output.slice(0, 500)}
-              </p>
+              <div className="prose prose-xs prose-slate max-w-none text-slate-400 leading-relaxed whitespace-pre-line [&>*]:text-xs [&>*]:my-1 [&_h1]:text-sm [&_h2]:text-sm [&_h3]:text-xs [&_p]:text-xs [&_p]:whitespace-pre-line [&_li]:text-xs [&_code]:text-[10px] [&_pre]:text-[10px] [&_pre]:bg-slate-200/50 [&_pre]:p-2 [&_pre]:rounded [&_pre]:whitespace-pre-wrap">
+                <ReactMarkdown>
+                  {variant.output.slice(0, 500)}
+                </ReactMarkdown>
+              </div>
             </div>
           )}
         </div>
