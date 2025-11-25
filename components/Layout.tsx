@@ -1,24 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Beaker, Pause, Play } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
-  onHomeClick: () => void;
-  isAutoRotationPaused: boolean;
-  onToggleAutoRotation: () => void;
+  isAutoRotationPaused?: boolean;
+  onToggleAutoRotation?: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, isAutoRotationPaused, onToggleAutoRotation }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, isAutoRotationPaused = false, onToggleAutoRotation }) => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-slate-900 font-sans">
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div 
-              className="flex items-center gap-3 cursor-pointer group" 
-              onClick={onHomeClick}
-            >
+            <Link to="/" className="flex items-center gap-3 group">
               <div className="bg-emerald-50 p-2 rounded-xl group-hover:bg-emerald-100 transition-colors">
                 <Beaker className="w-6 h-6 text-emerald-600" />
               </div>
@@ -28,27 +25,29 @@ export const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, isAutoRot
                 </h1>
                 <span className="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Catalogue & Archives</span>
               </div>
-            </div>
-            
-            {/* Auto-rotation toggle */}
-            <button
-              onClick={onToggleAutoRotation}
-              className="relative w-12 h-6 rounded-full transition-colors duration-200"
-              style={{ backgroundColor: isAutoRotationPaused ? '#e5e7eb' : '#10b981' }}
-              title={isAutoRotationPaused ? "Resume auto-rotation" : "Pause auto-rotation"}
-            >
-              <span
-                className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200 flex items-center justify-center ${
-                  isAutoRotationPaused ? 'translate-x-0' : 'translate-x-6'
-                }`}
+            </Link>
+
+            {/* Auto-rotation toggle - only show if handler provided */}
+            {onToggleAutoRotation && (
+              <button
+                onClick={onToggleAutoRotation}
+                className="relative w-12 h-6 rounded-full transition-colors duration-200"
+                style={{ backgroundColor: isAutoRotationPaused ? '#e5e7eb' : '#10b981' }}
+                title={isAutoRotationPaused ? "Resume auto-rotation" : "Pause auto-rotation"}
               >
-                {isAutoRotationPaused ? (
-                  <Play className="w-3 h-3 text-gray-400" />
-                ) : (
-                  <Pause className="w-3 h-3 text-emerald-600" />
-                )}
-              </span>
-            </button>
+                <span
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200 flex items-center justify-center ${
+                    isAutoRotationPaused ? 'translate-x-0' : 'translate-x-6'
+                  }`}
+                >
+                  {isAutoRotationPaused ? (
+                    <Play className="w-3 h-3 text-gray-400" />
+                  ) : (
+                    <Pause className="w-3 h-3 text-emerald-600" />
+                  )}
+                </span>
+              </button>
+            )}
           </div>
         </div>
       </header>

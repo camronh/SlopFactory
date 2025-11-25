@@ -1,0 +1,29 @@
+import { GalleryItem } from '../types';
+import { test as neonCyberpunkCity } from './tests/neon-cyberpunk-city';
+import { test as microStoryTheLastRobot } from './tests/micro-story-the-last-robot';
+import { test as saasLandingPageHeader } from './tests/saas-landing-page-header';
+import { test as q3MarketingSlideshowOutline } from './tests/q3-marketing-slideshow-outline';
+import { test as watercolorCatPortrait } from './tests/watercolor-cat-portrait';
+import { test as haikuAboutCoding } from './tests/haiku-about-coding';
+import { test as ecoCoffeeShopValueProp } from './tests/eco-coffee-shop-value-prop';
+import { test as abstractGeometricShapes } from './tests/abstract-geometric-shapes';
+
+export const allTests: GalleryItem[] = [
+  neonCyberpunkCity,
+  microStoryTheLastRobot,
+  saasLandingPageHeader,
+  q3MarketingSlideshowOutline,
+  watercolorCatPortrait,
+  haikuAboutCoding,
+  ecoCoffeeShopValueProp,
+  abstractGeometricShapes,
+];
+
+// O(1) lookup by slug
+const testsBySlug = new Map<string, GalleryItem>(
+  allTests.map(t => [t.slug, t])
+);
+
+export const getTestBySlug = (slug: string): GalleryItem | undefined => {
+  return testsBySlug.get(slug);
+};

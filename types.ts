@@ -25,6 +25,7 @@ export interface Variant {
 
 export interface GalleryItem {
   id: string;
+  slug: string;
   title: string;
   prompt: string;
   category: Category;

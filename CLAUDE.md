@@ -12,16 +12,34 @@ SlopFactory is a React gallery application for comparing AI model outputs side-b
 
 ## Architecture
 
-**Flat structure** - No `src/` directory. Components and files live at the project root:
-- `App.tsx` - Main app with static data catalogue (`STATIC_ITEMS`), `GalleryView`, and `DetailView` components
-- `index.tsx` - React entry point
-- `types.ts` - TypeScript enums (`ModelId`, `Category`) and interfaces (`GalleryItem`, `Variant`)
-- `components/` - Reusable UI components (Layout, Card, ModelBadge, Button)
-- `services/geminiService.ts` - Google Gemini API wrapper for content generation
+**Directory structure:**
+```
+├── App.tsx              # Router setup (BrowserRouter, Routes)
+├── index.tsx            # React entry point
+├── types.ts             # TypeScript enums and interfaces
+├── components/          # Reusable UI (Layout, Card, ModelBadge, SEO)
+├── pages/               # Route pages
+│   ├── GalleryPage.tsx  # Home page (/)
+│   └── DetailPage.tsx   # Test detail page (/:slug)
+└── data/
+    ├── index.ts         # Aggregates all tests, exports allTests and getTestBySlug()
+    └── tests/           # One file per test
+        ├── neon-cyberpunk-city.ts
+        ├── haiku-about-coding.ts
+        └── ...
+```
+
+**Routing:** Uses react-router-dom with `/:slug` paths. Each test has a unique URL (e.g., `/neon-cyberpunk-city`).
+
+**SEO:** Uses react-helmet-async for dynamic meta tags (title, description, Open Graph).
 
 **Key data types:**
-- `GalleryItem` - A single catalogue entry with prompt, category, and multiple `Variant` outputs
-- `Variant` - One model's output for a given prompt (contains `modelId` and `output` string)
+- `GalleryItem` - A single test with `slug`, `title`, `prompt`, `category`, and `variants[]`
+- `Variant` - One model's output (contains `modelId` and `output` string)
+
+**Adding a new test:**
+1. Create `data/tests/my-new-test.ts` exporting a `GalleryItem` with unique `slug`
+2. Import and add to `allTests` array in `data/index.ts`
 
 **Styling:** Tailwind CSS via CDN (loaded in index.html). Uses Inter font.
 
