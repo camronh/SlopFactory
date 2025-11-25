@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { SEO } from '../components/SEO';
@@ -35,8 +35,38 @@ const modelNames: Record<string, string> = {
 // Card component built into the page for cohesive design
 const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boolean }> = ({ item, index, featured }) => {
   const [activeVariant, setActiveVariant] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const prevVariantRef = useRef(0);
   const variant = item.variants[activeVariant];
   const categories = Array.isArray(item.category) ? item.category : [item.category];
+
+  const handleVariantChange = (newIndex: number) => {
+    if (newIndex === activeVariant || isAnimating) return;
+
+    setSlideDirection(newIndex > prevVariantRef.current ? 'left' : 'right');
+    setIsAnimating(true);
+    prevVariantRef.current = newIndex;
+    setActiveVariant(newIndex);
+  };
+
+  useEffect(() => {
+    if (isAnimating) {
+      const timer = setTimeout(() => {
+        setIsAnimating(false);
+        setSlideDirection(null);
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [isAnimating]);
+
+  const getSlideClass = () => {
+    if (!slideDirection) return '';
+    if (slideDirection === 'left') {
+      return 'animate-slide-in-right';
+    }
+    return 'animate-slide-in-left';
+  };
 
   return (
     <Link
@@ -46,20 +76,22 @@ const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boole
     >
       {/* Preview Area */}
       <div className={`relative overflow-hidden ${featured ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
-        {item.isImage ? (
-          <img
-            src={variant.output}
-            alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 p-6 relative">
-            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10" />
-            <p className="font-mono text-xs text-slate-400 leading-relaxed line-clamp-[12]">
-              {variant.output.slice(0, 500)}
-            </p>
-          </div>
-        )}
+        <div className={`w-full h-full ${getSlideClass()}`}>
+          {item.isImage ? (
+            <img
+              src={variant.output}
+              alt={item.title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 p-6 relative">
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10" />
+              <p className="font-mono text-xs text-slate-400 leading-relaxed line-clamp-[12]">
+                {variant.output.slice(0, 500)}
+              </p>
+            </div>
+          )}
+        </div>
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -85,7 +117,7 @@ const GalleryCard: React.FC<{ item: GalleryItem; index: number; featured?: boole
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setActiveVariant(idx);
+                handleVariantChange(idx);
               }}
               className={`w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all duration-300 ${
                 idx === activeVariant ? 'ring-2 ring-emerald-500 ring-offset-2' : 'opacity-60 hover:opacity-100'
