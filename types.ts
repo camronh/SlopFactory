@@ -12,7 +12,7 @@ export enum ModelId {
 }
 
 export enum Category {
-  STORY = 'Short Story',
+  STORY = 'Story',
   LANDING_PAGE = 'Landing Page',
   SLIDESHOW = 'Slideshow',
   IMAGE = 'Image Generation',
@@ -23,6 +23,7 @@ export enum Category {
 export interface Variant {
   modelId: ModelId;
   output: string; // Text content or base64 image string / URL
+  timestamp?: number; // Optional timestamp for when this variant was generated
 }
 
 export interface GalleryItem {
@@ -30,7 +31,7 @@ export interface GalleryItem {
   slug: string;
   title: string;
   prompt: string;
-  category: Category;
+  category: Category | Category[];
   isImage: boolean;
   timestamp: number;
   variants: Variant[];

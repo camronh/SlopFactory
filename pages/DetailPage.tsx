@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { Layout } from '../components/Layout';
 import { SEO } from '../components/SEO';
 import { getTestBySlug } from '../data';
-import { ArrowLeft, Copy, Check, ChevronDown, Sparkles } from 'lucide-react';
+import { ArrowLeft, Copy, Check, ChevronDown } from 'lucide-react';
 import { ModelId } from '../types';
 
 // Model-specific accent colors
@@ -53,6 +53,11 @@ export const DetailPage: React.FC = () => {
 
   const item = slug ? getTestBySlug(slug) : undefined;
 
+  // Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
   if (!item) {
     return <Navigate to="/" replace />;
   }
@@ -91,10 +96,12 @@ export const DetailPage: React.FC = () => {
                 <span className="text-xs font-medium">Back</span>
               </button>
               <span className="text-gray-300">/</span>
-              <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
-                <Sparkles className="w-3 h-3" />
-                {item.category}
-              </span>
+              {(Array.isArray(item.category) ? item.category : [item.category]).map((cat, idx, arr) => (
+                <span key={cat} className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
+                  {cat}
+                  {idx < arr.length - 1 && <span className="text-gray-300 ml-1">·</span>}
+                </span>
+              ))}
             </div>
 
             {/* Title */}
@@ -133,6 +140,16 @@ export const DetailPage: React.FC = () => {
                   </button>
                 );
               })}
+
+              {/* Date for active variant (falls back to item timestamp) */}
+              {(activeVariant.timestamp || item.timestamp) && (
+                <>
+                  <span className="text-gray-300 mx-2">·</span>
+                  <span className="text-xs text-gray-400">
+                    {new Date(activeVariant.timestamp || item.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </span>
+                </>
+              )}
             </div>
           </div>
 
