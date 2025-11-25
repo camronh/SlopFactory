@@ -1,20 +1,33 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# SlopFactory
 
-# Run and deploy your AI Studio app
+**A curated gallery comparing AI model outputs side-by-side.**
 
-This contains everything you need to run your app locally.
+See how Claude, GPT, Gemini, and Grok interpret the same prompts across different creative tasks.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1H97My_F62GpfXCFg9YNtycn1tHgBqvfC
+**[View Live Demo](https://slopfactory.wiseguyai.com)**
+
+---
+
+## What is SlopFactory?
+
+SlopFactory is an archive of AI experiments where you can compare outputs from leading AI models given identical prompts. Switch between models to see different approaches, writing styles, and quality levels.
+
+![Gallery View](docs/screenshots/gallery.png)
+
+### Features
+
+- **Side-by-side comparison** - Switch between model outputs with a single click
+- **Multiple categories** - Stories, blog posts, images, landing pages, and more
+- **Leading AI models** - Claude, GPT, Gemini, and Grok variants
+
+![Detail View](docs/screenshots/detail.png)
+
+---
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm install
+# Set GEMINI_API_KEY in .env.local
+npm run dev
+```
