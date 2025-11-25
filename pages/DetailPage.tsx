@@ -48,11 +48,11 @@ export const DetailPage: React.FC = () => {
       />
 
       <div className="max-w-6xl mx-auto">
-        {/* Main Content Card */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+        {/* Main Content Card - full width on mobile, card style on larger screens */}
+        <div className="bg-white sm:rounded-2xl sm:border sm:border-gray-200 sm:shadow-sm overflow-hidden">
 
           {/* Header Section */}
-          <div className="px-8 lg:px-12 pt-6 pb-6 border-b border-gray-100">
+          <div className="px-5 sm:px-8 lg:px-12 pt-6 pb-6 border-b border-gray-100">
             {/* Top row: Back + Category */}
             <div className="flex items-center gap-3 mb-4">
               <button
@@ -126,7 +126,7 @@ export const DetailPage: React.FC = () => {
           </div>
 
           {/* Prompt Section - Collapsible */}
-          <div className="px-8 lg:px-12 py-4 bg-gray-50/50 border-b border-gray-100">
+          <div className="px-5 sm:px-8 lg:px-12 py-4 bg-gray-50/50 border-b border-gray-100">
             <div className="flex items-start gap-4">
               <button
                 onClick={() => setPromptExpanded(!promptExpanded)}
@@ -159,16 +159,16 @@ export const DetailPage: React.FC = () => {
           {/* Output Section */}
           <div className="relative">
             {item.isImage ? (
-              <div className="flex justify-center bg-gradient-to-b from-gray-50 to-white p-8 lg:p-12">
+              <div className="flex justify-center bg-gradient-to-b from-gray-50 to-white p-4 sm:p-8 lg:p-12">
                 <img
                   key={activeVariant.modelId}
                   src={activeVariant.output}
                   alt={item.title}
-                  className="max-w-full max-h-[75vh] rounded-xl shadow-lg"
+                  className="max-w-full max-h-[75vh] sm:rounded-xl sm:shadow-lg"
                 />
               </div>
             ) : (
-              <div className="px-8 lg:px-12 py-10 lg:py-12">
+              <div className="px-5 sm:px-8 lg:px-12 py-8 sm:py-10 lg:py-12">
                 {/* Colored accent bar based on model */}
                 <div className={`w-12 h-1 rounded-full ${colors.dot} mb-8 opacity-60`} />
 

@@ -170,12 +170,22 @@ export const GalleryPage: React.FC = () => {
           <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-gradient-to-tr from-amber-100/30 to-rose-100/30 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative">
-            {/* Eyebrow */}
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-px bg-emerald-500" />
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">
-                AI Output Archive
-              </span>
+            {/* Eyebrow row with Blog link */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-px bg-emerald-500" />
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">
+                  AI Output Archive
+                </span>
+              </div>
+              <a
+                href="https://www.wiseguyai.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400 hover:text-emerald-600 transition-colors duration-300"
+              >
+                Blog →
+              </a>
             </div>
 
             {/* Main headline */}
